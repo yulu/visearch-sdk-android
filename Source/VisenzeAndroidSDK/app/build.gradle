@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "com.visenze.visearch.demo"
+        minSdkVersion 14
+        targetSdkVersion 20
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+}
+
+dependencies {
+    compile project(':sdk')
+
+    compile 'com.android.support:support-v4:21.0.+'
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'org.apache.httpcomponents:httpmime:4.3.5'
+    compile 'commons-codec:commons-codec:1.6'
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5'
+}

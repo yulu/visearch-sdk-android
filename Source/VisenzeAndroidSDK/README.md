@@ -1,7 +1,7 @@
-Visenze Android SDK Getting-started Guide
+Visenze Android SDK Getting Started Guide
 =====
 
-This tutorial guides the developer to start an Android project using the Visenze Android SDK step by step. Following the tutorial, a demonstrable Android app can be built. The demo app should be able to load an image file from the photo gallery and to start an image search. The search result is returned as list of image names.
+This tutorial guides the developer to start an Android project using the Visenze Android SDK step by step. Following the tutorial, a demonstrable Android app can be built. The demo app should be able to load an image from the photo gallery and to start an image search. The search result is returned as list of image names.
 
 
 ##Prerequisites
@@ -14,15 +14,7 @@ This tutorial guides the developer to start an Android project using the Visenze
 
 
 ###Integrate SDK
-You can import the project under SDK/VisenzeSDK/ directory and explore the source code of the SDK. In this tutorial we focus on how to setup a new android project and deliver a simple app using the compiled jar library.
-
-Add the dependency by
-
-```
-compile 'xxx.xxx.xxx:1.0.0'
-```
-
-This SDK provides all the search functions supported by Visenze search API that could be easily integrated into your Android apps. Start a new project in Android Studio and follow the steps to setup the dependency and development environment. 
+You can import the project under SDK/VisenzeSDK/ directory and explore the source code of the SDK and a demo app. In this tutorial we focus on how to setup a new android project and deliver a simple app using the compiled sdk library. This SDK provides all the search functions supported by Visenze search API that could be easily integrated into your Android apps. Start a new project in Android Studio and follow the steps to setup the development environment. 
 
 
 ###Add dependency
@@ -46,7 +38,7 @@ dependencies {
 }
 ```
 ###Add user permissions
-VisenzeSDK needs these user permissions to work. Add the following declarations to the `AndroidManifest.xml` file.  Network permission allows the app to connect to network services, while write/read to external storage permissions allow the app to load and save images on the device.
+VisenzeSDK needs these use permissions to work. Add the following declarations to the `AndroidManifest.xml` file.  Network permissions allow the app to connect to network services, while write/read to external storage permissions allow the app to load and save images on the device.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -199,18 +191,18 @@ public class MyActivity extends Activity implements ViSearcher.ResultListener{
         resultText = (TextView)findViewById(R.id.result_text);
 		
 		//TODO: implement button click
-	}
+    }
 }
 
 ```
 
 
 ##4. Set Search Parameters
-`ViSearcher` provides three search functions: `idSearch`(*search by image name*), `colorSearch`(*search by color code*)  and `uploadSearch`(*search by an image*). Before the search session starts, search parameters should be correctly set. The following section gives a step-by-step introduction on how to use a `UploadSearchParams` to start a `uploadSearch` using an image selected from the gallery.
+`ViSearcher` provides three search functions: `idSearch`(*search by image name*), `colorSearch`(*search by color code*)  and `uploadSearch`(*search by an image*). Before the search session starts, search parameters should be correctly configured. The following section gives a step-by-step introduction on how to start an `uploadSearch` using an image from the photo gallery.
 
 ###Start activity to select image from gallery
 
-Implement the button click function to start a new activity that opens the photo gallery for image selection. This requires a new `Intent` being started, which is implemented in the private method `startGallery`. `onActivityResult` method is override listening for a result returned from the image selection activity. 
+Implement the button click function to start a new activity that opens the photo gallery for image selection. This requires a new `Intent` being started, which is implemented in the method `startGallery`. `onActivityResult` method is override listening for a result returned from the image selection activity. 
 
 ```java
 public class MyActivity extends Activity implements ViSearcher.ResultListener{
@@ -263,7 +255,7 @@ public class MyActivity extends Activity implements ViSearcher.ResultListener{
 
 ###Initialize Search Parameters
 
-Image decode and resize are handled in `Image` class. A new `Image` instance can be constructed with `Uri` or `String` of a local file path. Optimization of the image size for upload is automatically performed. The `UploadSearchParams` is instantiated with `Image`:
+Image decode and resize are handled by `Image` class. A new `Image` instance can be constructed with `Uri` or `String` of a local file path. Optimization of the image size for upload is automatically performed. The `UploadSearchParams` is instantiated with `Image`:
 
 ```java
     @Override
@@ -298,15 +290,15 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 super.onActivityResult(requestCode, resultCode, data);
 
-if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-    Uri selectedImage = data.getData();
+    if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+        Uri selectedImage = data.getData();
     
-    //Decode and resize the image using the uri
-    ...
+        //Decode and resize the image using the uri
+        ...
     
-    //start search
-    viSearcher.uploadSearch(uploadSearchParams);
-}
+        //start search
+        viSearcher.uploadSearch(uploadSearchParams);
+    }
 }
 ```
 
@@ -318,7 +310,7 @@ When a search result is returned, `ViSearcher` instance will call `onSearchResul
 	...
 	
     @Override
-    public void onGetResult(ResultList resultList) {
+    public void onSearchResult(ResultList resultList) {
         resultText.setText("Result List: ");
         if(resultList != null && resultList.getImageList().size() > 0) {
             resultListView.setAdapter(new ResultListAdapter(this, resultList.getImageList()));
@@ -334,7 +326,7 @@ When a search result is returned, `ViSearcher` instance will call `onSearchResul
 ```
 
 
-`ResultListAdapter` need to be implemented to handle a list of object as input for viewing. It is in a separate class file. Create the class in a new .java file `ResultListAdapter.java`:
+`ResultListAdapter` need to be implemented to handle a list of object as input for viewing. It is in a separate class file. Create a new class `ResultListAdapter.java`:
 
 ```java
 package com.visenze.android.visenzesdk_demo;

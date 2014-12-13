@@ -2,7 +2,7 @@ package com.visenze.visearch.android.core;
 
 import com.visenze.visearch.android.*;
 import com.visenze.visearch.android.core.api.SearchOperations;
-import com.visenze.visearch.android.core.json.JsonParser;
+import com.visenze.visearch.android.util.ResponseParser;
 import com.visenze.visearch.android.http.HttpClientImp;
 
 /**
@@ -85,7 +85,7 @@ public class SearchOperationsImpl extends BaseOperations implements SearchOperat
         ResultList resultList;
 
         try {
-            resultList = JsonParser.parseResult(jsonResponse);
+            resultList = ResponseParser.parseResult(jsonResponse);
         } catch (ViSearchException e) {
             throw new ViSearchException("Error: " + e.toString());
         }

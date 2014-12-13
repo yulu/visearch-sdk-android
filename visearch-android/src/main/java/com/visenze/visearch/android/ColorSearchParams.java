@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Sets the color search parameters
  */
-public class ColorSearchParams extends SearchParams{
+public class ColorSearchParams extends SearchParams {
     private String color;
 
     public ColorSearchParams() {
@@ -14,6 +14,7 @@ public class ColorSearchParams extends SearchParams{
 
     /**
      * Construct with a color code
+     *
      * @param color color code in Hexadecimal.
      */
     public ColorSearchParams(String color) {
@@ -23,6 +24,7 @@ public class ColorSearchParams extends SearchParams{
 
     /**
      * Set the color code for search
+     *
      * @param color color code in Hexadecimal.
      * @return this instance.
      */
@@ -33,6 +35,7 @@ public class ColorSearchParams extends SearchParams{
 
     /**
      * Get the color code set for search
+     *
      * @return color code in Hexadecimal.
      */
     public String getColor() {

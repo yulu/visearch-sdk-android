@@ -13,15 +13,15 @@ import com.visenze.visearch.android.ColorSearchParams;
 import com.visenze.visearch.android.IdSearchParams;
 import com.visenze.visearch.android.ResultList;
 import com.visenze.visearch.android.UploadSearchParams;
-import com.visenze.visearch.android.ViSearcher;
-import com.visenze.visearch.android.util.Image;
+import com.visenze.visearch.android.ViSearch;
+import com.visenze.visearch.android.Image;
 import com.visenze.visearch.demo.view.ResultView;
 import com.visenze.visearch.demo.view.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyActivity extends Activity implements ViSearcher.ResultListener{
+public class MyActivity extends Activity implements ViSearch.ResultListener{
     //Activity Code
     private static final int RESULT_LOAD_IMAGE = 0x00;
 
@@ -30,7 +30,7 @@ public class MyActivity extends Activity implements ViSearcher.ResultListener{
     private static final String SECRET_KEY = "your_secret_key";
 
     //ViSearcher instance
-    private ViSearcher viSearcher;
+    private ViSearch viSearch;
 
     //setup UI
     private SearchView searchView;
@@ -49,9 +49,9 @@ public class MyActivity extends Activity implements ViSearcher.ResultListener{
         setContentView(R.layout.main_layout);
 
         //get ViSearcher instance
-        viSearcher = ViSearcher.getInstance();
-        viSearcher.initSearch(this, ACCESS_KEY, SECRET_KEY);
-        viSearcher.setListener(this);
+        viSearch = ViSearch.getInstance();
+        viSearch.initSearch(this, ACCESS_KEY, SECRET_KEY);
+        viSearch.setListener(this);
 
         //init search params
         baseSearchParams = new BaseSearchParams();
@@ -134,7 +134,7 @@ public class MyActivity extends Activity implements ViSearcher.ResultListener{
         idSearchParams.setImageName(imageName);
 
         //call search method
-        viSearcher.idSearch(idSearchParams);
+        viSearch.idSearch(idSearchParams);
     }
 
     //set parameters and start color search
@@ -147,7 +147,7 @@ public class MyActivity extends Activity implements ViSearcher.ResultListener{
         colorSearchParams.setColor(colorCode);
 
         //call search method
-        viSearcher.colorSearch(colorSearchParams);
+        viSearch.colorSearch(colorSearchParams);
     }
 
     //set parameters and start upload search
@@ -161,7 +161,7 @@ public class MyActivity extends Activity implements ViSearcher.ResultListener{
         uploadSearchParams.setImage(image);
 
         //call search method
-        viSearcher.uploadSearch(uploadSearchParams);
+        viSearch.uploadSearch(uploadSearchParams);
     }
 
     //Get basic search parameters from user input and setup default parameters

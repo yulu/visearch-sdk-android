@@ -1,25 +1,20 @@
 package com.visenze.visearch.android.core;
 
-import com.visenze.visearch.android.ColorSearchParams;
-import com.visenze.visearch.android.IdSearchParams;
-import com.visenze.visearch.android.ResultList;
-import com.visenze.visearch.android.UploadSearchParams;
-import com.visenze.visearch.android.VisenzeError;
-import com.visenze.visearch.android.core.api.SearchOperationsTemplate;
+import com.visenze.visearch.android.*;
+import com.visenze.visearch.android.core.api.SearchOperations;
 import com.visenze.visearch.android.core.json.JsonParser;
 import com.visenze.visearch.android.http.HttpClientImp;
 
 /**
- * Implementation of search operation
- * Created by visenze on 10/17/14.
+ * Implementation of search operations interface.
  */
-public class SearchOperation extends BaseOperations implements SearchOperationsTemplate {
+public class SearchOperationsImpl extends BaseOperations implements SearchOperations {
     private final static String ID_SEARCH = "/search";
     private final static String COLOR_SEARCH = "/colorsearch";
     private final static String UPLOAD_SEARCH = "/uploadsearch";
 
 
-    public SearchOperation(HttpClientImp httpClient, String apiUrl) {
+    public SearchOperationsImpl(HttpClientImp httpClient, String apiUrl) {
         super(httpClient, apiUrl);
     }
 
@@ -28,14 +23,13 @@ public class SearchOperation extends BaseOperations implements SearchOperationsT
      *
      * @param idSearchParams the index search parameter setting
      * @return Result list
-     * @throws VisenzeError
      */
     @Override
-    public ResultList search(IdSearchParams idSearchParams) throws VisenzeError {
+    public ResultList search(IdSearchParams idSearchParams) {
         String imageId = idSearchParams.getImageName();
 
         if (imageId == null || imageId.isEmpty()) {
-            throw new VisenzeError("Missing parameter, image name is empty", VisenzeError.Code.ERROR);
+            throw new ViSearchException("Missing parameter, image name is empty");
         }
 
         String response = mHttpClient.getForObject(apiBase + ID_SEARCH, idSearchParams.toMap());
@@ -47,16 +41,15 @@ public class SearchOperation extends BaseOperations implements SearchOperationsT
      *
      * @param colorSearchParams the color search parameter setting
      * @return Result list
-     * @throws VisenzeError
      */
     @Override
-    public ResultList colorSearch(ColorSearchParams colorSearchParams) throws VisenzeError {
+    public ResultList colorSearch(ColorSearchParams colorSearchParams) {
         String color = colorSearchParams.getColor();
         if (color == null || color.isEmpty()) {
-            throw new VisenzeError("Missing parameter, color code is empty", VisenzeError.Code.ERROR);
+            throw new ViSearchException("Missing parameter, color code is empty");
         }
         if (!color.matches("^[0-9a-fA-F]{6}$")) {
-            throw new VisenzeError("Invalid parameter, only accept hex color code", VisenzeError.Code.ERROR);
+            throw new ViSearchException("Invalid parameter, only accept hex color code");
         }
 
         String response = mHttpClient.getForObject(apiBase + COLOR_SEARCH, colorSearchParams.toMap());
@@ -68,18 +61,17 @@ public class SearchOperation extends BaseOperations implements SearchOperationsT
      *
      * @param uploadSearchParams the index search parameter setting
      * @return Result list
-     * @throws VisenzeError
      */
     @Override
-    public ResultList uploadSearch(UploadSearchParams uploadSearchParams) throws VisenzeError {
+    public ResultList uploadSearch(UploadSearchParams uploadSearchParams) {
         byte[] imageBytes = uploadSearchParams.getImage().getByteArray();
         String imageUrl = uploadSearchParams.getImageUrl();
 
         String response;
         if (imageBytes == null && (imageUrl == null || imageUrl.isEmpty())) {
-            throw new VisenzeError("Missing parameter, image empty", VisenzeError.Code.ERROR);
+            throw new ViSearchException("Missing parameter, image empty");
 
-        } else if (imageBytes != null){
+        } else if (imageBytes != null) {
             response = mHttpClient.postForObject(apiBase + UPLOAD_SEARCH, uploadSearchParams.toMap(), imageBytes);
 
         } else {
@@ -89,13 +81,13 @@ public class SearchOperation extends BaseOperations implements SearchOperationsT
         return getResult(response);
     }
 
-    private ResultList getResult(String jsonResponse) throws VisenzeError {
+    private ResultList getResult(String jsonResponse) {
         ResultList resultList;
 
         try {
             resultList = JsonParser.parseResult(jsonResponse);
-        } catch (VisenzeError e) {
-            throw new VisenzeError("Error: " + e.toString(), VisenzeError.Code.ERROR);
+        } catch (ViSearchException e) {
+            throw new ViSearchException("Error: " + e.toString());
         }
 
         return resultList;

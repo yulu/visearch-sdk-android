@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Sets the index search parameters
  */
-public class IdSearchParams extends SearchParams{
+public class IdSearchParams extends SearchParams {
 
     private String imName;
 
@@ -15,6 +15,7 @@ public class IdSearchParams extends SearchParams{
 
     /**
      * Construct with image id
+     *
      * @param imName image id.
      */
     public IdSearchParams(String imName) {
@@ -24,6 +25,7 @@ public class IdSearchParams extends SearchParams{
 
     /**
      * Set the image id for search
+     *
      * @param imName image id.
      * @return this instance.
      */
@@ -34,6 +36,7 @@ public class IdSearchParams extends SearchParams{
 
     /**
      * Get the image id set for search
+     *
      * @return image id.
      */
     public String getImageName() {

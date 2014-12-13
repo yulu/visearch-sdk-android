@@ -1,25 +1,19 @@
 package com.visenze.visearch.android.core.json;
 
 import com.visenze.visearch.android.ResultList;
-import com.visenze.visearch.android.VisenzeError;
-
+import com.visenze.visearch.android.ViSearchException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Json Parser using json interpreter
- * Created by visenze on 10/17/14.
  */
 public class JsonParser {
 
-    public static ResultList parseResult(String jsonResponse) throws VisenzeError {
+    public static ResultList parseResult(String jsonResponse) throws ViSearchException {
         ResultList resultList = new ResultList();
 
         try {
@@ -30,7 +24,7 @@ public class JsonParser {
             resultList.setPage(resultObj.getInt("page"));
             resultList.setLimit(resultObj.getInt("limit"));
 
-            if(resultObj.has("qinfo")) {
+            if (resultObj.has("qinfo")) {
                 JSONObject qinfoObj = resultObj.getJSONObject("qinfo");
                 resultList.setQueryInfo(parseQuery(qinfoObj));
             }
@@ -41,14 +35,14 @@ public class JsonParser {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (VisenzeError e) {
-            throw new VisenzeError("Error: " + e.toString(), VisenzeError.Code.ERROR);
+        } catch (ViSearchException e) {
+            throw new ViSearchException("Error: " + e.toString());
         }
 
         return resultList;
     }
 
-    private static Map<String, String> parseQuery(JSONObject qinfoObj) throws VisenzeError{
+    private static Map<String, String> parseQuery(JSONObject qinfoObj) throws ViSearchException {
         Map<String, String> queryInfo = new HashMap<String, String>();
         try {
             Iterator<String> nameItr = qinfoObj.keys();
@@ -57,13 +51,13 @@ public class JsonParser {
                 queryInfo.put(name, qinfoObj.getString(name));
             }
         } catch (JSONException e) {
-            throw new VisenzeError("JsonParse Error: " + e.toString(), VisenzeError.Code.ERROR);
+            throw new ViSearchException("JsonParse Error: " + e.toString());
         }
 
         return queryInfo;
     }
 
-    private static List<ResultList.ImageResult> parseImageList(JSONArray resultArray) throws VisenzeError {
+    private static List<ResultList.ImageResult> parseImageList(JSONArray resultArray) throws ViSearchException {
         List<ResultList.ImageResult> resultList = new ArrayList<ResultList.ImageResult>();
         int size = resultArray.length();
 
@@ -97,30 +91,29 @@ public class JsonParser {
 
                 resultList.add(imageResult);
             }
-        }
-        catch (JSONException e) {
-            throw new VisenzeError("JsonParse Error: " + e.toString(), VisenzeError.Code.ERROR);
+        } catch (JSONException e) {
+            throw new ViSearchException("JsonParse Error: " + e.toString());
         }
 
         return resultList;
     }
 
-    private static String checkStatus(JSONObject jsonObj) throws VisenzeError{
+    private static String checkStatus(JSONObject jsonObj) throws ViSearchException {
         try {
             String status = jsonObj.getString("status");
             if (status == null) {
-                throw new VisenzeError("Receiving api Response Error", VisenzeError.Code.ERROR);
+                throw new ViSearchException("Receiving api Response Error");
             } else {
                 if (!status.equals("OK")) {
-                    if ( !jsonObj.has("error") ) {
-                        throw new VisenzeError("Receiving api Response Error", VisenzeError.Code.ERROR);
+                    if (!jsonObj.has("error")) {
+                        throw new ViSearchException("Receiving api Response Error");
                     } else {
                         return jsonObj.getJSONArray("error").get(0).toString();
                     }
                 }
             }
         } catch (JSONException e) {
-            throw new VisenzeError("JsonParse Error: " + e.toString(), VisenzeError.Code.ERROR);
+            throw new ViSearchException("JsonParse Error: " + e.toString());
         }
 
         return null;

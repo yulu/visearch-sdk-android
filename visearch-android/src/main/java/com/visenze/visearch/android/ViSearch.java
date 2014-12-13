@@ -3,48 +3,49 @@ package com.visenze.visearch.android;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-
-import com.visenze.visearch.android.core.SearchOperation;
+import com.visenze.visearch.android.core.SearchOperationsImpl;
 import com.visenze.visearch.android.http.HttpClientImp;
 
 
 /**
- * ViSearcher singleton handles all the search methods.
- *
- * ViSearcher should be initialised with a valid API access/secret key pair before it can be used.
+ * ViSearch singleton handles all the search methods.
+ * <p/>
+ * ViSearch should be initialised with a valid API access/secret key pair before it can be used.
  */
-public class ViSearcher {
+public class ViSearch {
 
     private String searchApiHost = "http://visearch.visenze.com";
     private String searchApiPort = "80";
 
     private HttpClientImp httpClient;
-    private SearchOperation searchOperation;
+    private SearchOperationsImpl searchOperationsImpl;
 
     private ResultListener mListener;
 
-    private static ViSearcher instance;
+    private static ViSearch instance;
     private Context mContext;
 
     /**
      * Return ViSearcher's Singleton
+     *
      * @return the singleton ViSearcher instance.
      */
-    public static ViSearcher getInstance() {
+    public static ViSearch getInstance() {
         if (instance == null) {
-            instance = new ViSearcher();
+            instance = new ViSearch();
         }
 
         return instance;
     }
 
-    private ViSearcher() {
+    private ViSearch() {
 
     }
 
     /**
      * Initialise the ViSearcher with a valid access/secret key pair
-     * @param context Activity context
+     *
+     * @param context   Activity context
      * @param accessKey the Access Key
      * @param secretKey the Secret Key
      */
@@ -52,12 +53,13 @@ public class ViSearcher {
         this.mContext = context;
 
         httpClient = new HttpClientImp(accessKey, secretKey);
-        searchOperation = new SearchOperation(httpClient, searchApiHost+":"+searchApiPort);
+        searchOperationsImpl = new SearchOperationsImpl(httpClient, searchApiHost + ":" + searchApiPort);
     }
 
 
     /**
-     * Sets the {@link com.visenze.visearch.android.ViSearcher.ResultListener ResultListener} to be notified of the search result
+     * Sets the {@link ViSearch.ResultListener ResultListener} to be notified of the search result
+     *
      * @param listener the ViSearcher.ResultListener to notify.
      */
     public void setListener(ResultListener listener) {
@@ -75,18 +77,19 @@ public class ViSearcher {
 
     /**
      * Start search session with index parameters: search by provide the image id
+     *
      * @param idSearchParams index parameters.
      */
-    public void idSearch(final IdSearchParams idSearchParams){
+    public void idSearch(final IdSearchParams idSearchParams) {
         new Thread() {
             @Override
             public void run() {
                 try {
-                    ResultList resultList = searchOperation.search(idSearchParams);
+                    ResultList resultList = searchOperationsImpl.search(idSearchParams);
 
                     handleInUIThread(resultList);
 
-                } catch (final VisenzeError e) {
+                } catch (final ViSearchException e) {
                     e.printStackTrace();
                 }
             }
@@ -95,6 +98,7 @@ public class ViSearcher {
 
     /**
      * Start search session with color parameters: search by providing a color code in hexadecimal
+     *
      * @param colorSearchParams color parameters.
      */
     public void colorSearch(final ColorSearchParams colorSearchParams) {
@@ -102,11 +106,11 @@ public class ViSearcher {
             @Override
             public void run() {
                 try {
-                    final ResultList resultList = searchOperation.colorSearch(colorSearchParams);
+                    final ResultList resultList = searchOperationsImpl.colorSearch(colorSearchParams);
 
                     handleInUIThread(resultList);
 
-                } catch (final VisenzeError e) {
+                } catch (final ViSearchException e) {
                     e.printStackTrace();
                 }
             }
@@ -115,6 +119,7 @@ public class ViSearcher {
 
     /**
      * Start search session with upload parameters: search by uploading a image or using an image url
+     *
      * @param uploadSearchParams upload parameters
      */
     public void uploadSearch(final UploadSearchParams uploadSearchParams) {
@@ -122,12 +127,12 @@ public class ViSearcher {
             @Override
             public void run() {
                 try {
-                    final ResultList resultList = searchOperation.uploadSearch(uploadSearchParams);
+                    final ResultList resultList = searchOperationsImpl.uploadSearch(uploadSearchParams);
 
                     handleInUIThread(resultList);
 
-                } catch (final VisenzeError e) {
-                     e.printStackTrace();
+                } catch (final ViSearchException e) {
+                    e.printStackTrace();
                 }
             }
         }.start();
@@ -156,12 +161,14 @@ public class ViSearcher {
 
         /**
          * Called after a search session is started and a valid result is returned
+         *
          * @param resultList the result list if any, null otherwise.
          */
         public abstract void onSearchResult(final ResultList resultList);
 
         /**
          * Called after a search session is started and an error occurs
+         *
          * @param errorMessage the error message if error occurs.
          */
         public abstract void onSearchError(String errorMessage);

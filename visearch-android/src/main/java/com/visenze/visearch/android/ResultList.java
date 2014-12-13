@@ -7,9 +7,9 @@ import java.util.Map;
 
 /**
  * The ResultList class represents a successful search result
- *
+ * <p/>
  * In practice you will never need to initialise a Result by yourself. Instead you should implement
- * {@link com.visenze.visearch.android.ViSearcher.ResultListener ResultListener} to get the returned result from a search session.
+ * {@link ViSearch.ResultListener ResultListener} to get the returned result from a search session.
  */
 public class ResultList {
 
@@ -30,7 +30,7 @@ public class ResultList {
         queryInfo = new HashMap<String, String>();
     }
 
-    public ResultList(Integer page, Integer limit, Integer total,  String errorMessage, List<ImageResult> imageResult, Map<String, String> queryInfo) {
+    public ResultList(Integer page, Integer limit, Integer total, String errorMessage, List<ImageResult> imageResult, Map<String, String> queryInfo) {
         this.page = page;
         this.limit = limit;
         this.total = total;
@@ -41,6 +41,7 @@ public class ResultList {
 
     /**
      * Get the page number of the search result
+     *
      * @return page number.
      */
     public int getPage() {
@@ -49,6 +50,7 @@ public class ResultList {
 
     /**
      * Get the limit for the number of items per page for the search result
+     *
      * @return limit for the number of items per page.
      */
     public int getPageLimit() {
@@ -57,6 +59,7 @@ public class ResultList {
 
     /**
      * Get the total number of items in the search result
+     *
      * @return total number of items.
      */
     public int getTotal() {
@@ -69,6 +72,7 @@ public class ResultList {
 
     /**
      * Get the list of Image {@link com.visenze.visearch.android.ResultList.ImageResult ImageResult}
+     *
      * @return image list.
      */
     public List<ImageResult> getImageList() {
@@ -77,6 +81,7 @@ public class ResultList {
 
     /**
      * Get the query information of the search
+     *
      * @return query information.
      */
     public Map<String, String> getQueryInfo() {
@@ -132,6 +137,7 @@ public class ResultList {
 
         /**
          * Get image id
+         *
          * @return image id.
          */
         public String getImageName() {
@@ -140,6 +146,7 @@ public class ResultList {
 
         /**
          * Get image url, null if the field parameter is not set
+         *
          * @return image url
          */
         public String getImageUrl() {
@@ -148,6 +155,7 @@ public class ResultList {
 
         /**
          * Get search score for the image, null if the field parameter is not set
+         *
          * @return search score.
          */
         public Double getScore() {
@@ -161,6 +169,7 @@ public class ResultList {
 
         /**
          * Get field list as set in the search parameter
+         *
          * @return field list.
          */
         public Map<String, String> getFieldList() {

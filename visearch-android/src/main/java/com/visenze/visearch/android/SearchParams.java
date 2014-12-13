@@ -21,6 +21,7 @@ public abstract class SearchParams {
 
     /**
      * Set the basic search parameters. If not set, default settings are used
+     *
      * @param baseSearchParams basic search parameter settings
      */
     public void setBaseSearchParams(BaseSearchParams baseSearchParams) {
@@ -29,6 +30,7 @@ public abstract class SearchParams {
 
     /**
      * Get the basic search parameter settings
+     *
      * @return basic search parameter settings.
      */
     public BaseSearchParams getBaseSearchParams() {

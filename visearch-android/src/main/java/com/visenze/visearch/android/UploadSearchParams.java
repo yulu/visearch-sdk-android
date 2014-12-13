@@ -1,14 +1,11 @@
 package com.visenze.visearch.android;
 
 
-import com.visenze.visearch.android.util.Image;
-
 import java.util.Map;
 
 /**
  * Set upload search parameters
  * Upload search can be initialised with an image attached or an image url.
- *
  */
 public class UploadSearchParams extends SearchParams {
 
@@ -22,6 +19,7 @@ public class UploadSearchParams extends SearchParams {
 
     /**
      * Construct with an image url.
+     *
      * @param imageUrl image url.
      */
     public UploadSearchParams(String imageUrl) {
@@ -30,8 +28,9 @@ public class UploadSearchParams extends SearchParams {
     }
 
     /**
-     * Construct with an {@link com.visenze.visearch.android.util.Image Image}
-     * @param image {@link com.visenze.visearch.android.util.Image Image} instance, handles image decode and optimisation
+     * Construct with an {@link Image Image}
+     *
+     * @param image {@link Image Image} instance, handles image decode and optimisation
      */
     public UploadSearchParams(Image image) {
         super();
@@ -39,8 +38,9 @@ public class UploadSearchParams extends SearchParams {
     }
 
     /**
-     * Set the {@link com.visenze.visearch.android.util.Image Image} to upload
-      * @param image {@link com.visenze.visearch.android.util.Image Image} instance.
+     * Set the {@link Image Image} to upload
+     *
+     * @param image {@link Image Image} instance.
      * @return this instance.
      */
     public UploadSearchParams setImage(Image image) {
@@ -55,6 +55,7 @@ public class UploadSearchParams extends SearchParams {
 
     /**
      * Set image url
+     *
      * @param imageUrl image url.
      * @return this instance.
      */
@@ -64,8 +65,9 @@ public class UploadSearchParams extends SearchParams {
     }
 
     /**
-     * Get {@link com.visenze.visearch.android.util.Image Image} that is set to search
-     * @return {@link com.visenze.visearch.android.util.Image Image} instance
+     * Get {@link Image Image} that is set to search
+     *
+     * @return {@link Image Image} instance
      */
     public Image getImage() {
         return image;
@@ -73,6 +75,7 @@ public class UploadSearchParams extends SearchParams {
 
     /**
      * Get image url that is set to search
+     *
      * @return image url.
      */
     public String getImageUrl() {
@@ -90,7 +93,7 @@ public class UploadSearchParams extends SearchParams {
             }
         }
 
-        if(imageUrl != null) {
+        if (imageUrl != null) {
             map.put("im_url", imageUrl);
         }
         return map;

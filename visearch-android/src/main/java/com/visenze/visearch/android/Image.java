@@ -1,4 +1,4 @@
-package com.visenze.visearch.android.util;
+package com.visenze.visearch.android;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 
 /**
  * Handles image decoding and optimisation.
- *
  */
 public class Image {
     private static final int OPT_WIDTH = 800;
@@ -26,6 +25,7 @@ public class Image {
 
     /**
      * Construct with file path
+     *
      * @param filePath path to a local directory.
      */
     public Image(String filePath) {
@@ -36,6 +36,7 @@ public class Image {
      * Construct with file path and set optimisation option.
      * If the optimisation is set as false, the image is load as its original size
      * otherwise the image is resize to optimise the search process.
+     *
      * @param filePath path to a local directory.
      * @param optimize optimisation option.
      */
@@ -44,7 +45,7 @@ public class Image {
         bitmapOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, bitmapOptions);
 
-        if(optimize) {
+        if (optimize) {
             inSampleSize = calculateInSampleSize(bitmapOptions);
         }
 
@@ -57,8 +58,9 @@ public class Image {
 
     /**
      * Construct with Uri
+     *
      * @param context Activity context
-     * @param uri Uri to link to the image
+     * @param uri     Uri to link to the image
      */
     public Image(Context context, Uri uri) {
         this(context, uri, true);
@@ -68,8 +70,9 @@ public class Image {
      * Construct with Uri and set optimisation option.
      * If the optimisation is set as false, the image is load as its original size
      * otherwise the image is resize to optimise the search process.
-     * @param context Activity context
-     * @param uri Uri to link to the image
+     *
+     * @param context  Activity context
+     * @param uri      Uri to link to the image
      * @param optimize optimisation option.
      */
     public Image(Context context, Uri uri, boolean optimize) {
@@ -78,7 +81,7 @@ public class Image {
         try {
             BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, bitmapOptions);
 
-            if(optimize) {
+            if (optimize) {
                 inSampleSize = calculateInSampleSize(bitmapOptions);
             }
 
@@ -93,6 +96,7 @@ public class Image {
 
     /**
      * Set the coordinates of a region in the image for search
+     *
      * @param x1 top-left corner x-coordinate
      * @param y1 top-left corner y-coordinate
      * @param x2 bottom-right corner x-coordinate
@@ -112,6 +116,7 @@ public class Image {
 
     /**
      * Get the Bitmap of the image decoded for search
+     *
      * @return Bitmap decoded
      */
     public Bitmap getBitmap() {
@@ -120,6 +125,7 @@ public class Image {
 
     /**
      * Get the {@link com.visenze.android.searchlib.util.Image.Box Box}
+     *
      * @return Region in the image for search
      */
     public Box getBox() {
@@ -130,7 +136,7 @@ public class Image {
      * Call recycle() to free memory taken by the bitmap
      */
     public void recycle() {
-        if(bitmap != null)
+        if (bitmap != null)
             bitmap.recycle();
     }
 
@@ -143,7 +149,7 @@ public class Image {
         final int width = options.outWidth;
         int inSampleSize = 1;
 
-        while((height / inSampleSize) > OPT_HEIGHT &&
+        while ((height / inSampleSize) > OPT_HEIGHT &&
                 (width / inSampleSize) > OPT_WIDTH) {
             inSampleSize *= 2;
         }
@@ -171,6 +177,7 @@ public class Image {
 
         /**
          * Construct with coordinates
+         *
          * @param x1 top-left corner x-coordinate.
          * @param y1 top-left corner y-coordinate.
          * @param x2 bottom-right corner x-coordinate.
@@ -185,46 +192,51 @@ public class Image {
 
         /**
          * Set x1: top-left corner x-coordinate.
+         *
          * @param x1 top-left corner x-coordinate.
          * @return this instance.
          */
         public Box setX1(Integer x1) {
-            this.x1 = (int) ( x1 / (float)inSampleSize);
+            this.x1 = (int) (x1 / (float) inSampleSize);
             return this;
         }
 
         /**
          * Set y1: top-left corner y-coordinate.
+         *
          * @param y1 top-left corner y-coordinate.
          * @return this instance.
          */
         public Box setY1(Integer y1) {
-            this.y1 = (int) ( y1 / (float)inSampleSize);
+            this.y1 = (int) (y1 / (float) inSampleSize);
             return this;
         }
 
         /**
          * Set x2: bottom-right corner x-coordinate.
+         *
          * @param x2 bottom-right corner x-coordinate.
          * @return this instance.
          */
         public Box setX2(Integer x2) {
-            this.x2 = (int) ( x2 / (float)inSampleSize);
+            this.x2 = (int) (x2 / (float) inSampleSize);
             return this;
         }
 
         /**
          * Set y2: bottom-right corner y-coordinate.
+         *
          * @param y2 bottom-right corner y-coordinate.
          * @return this instance.
          */
         public Box setY2(Integer y2) {
-            this.y2 = (int) ( y2 / (float)inSampleSize);
+            this.y2 = (int) (y2 / (float) inSampleSize);
             return this;
         }
 
         /**
          * Get x1: top-left corner x-coordinate.
+         *
          * @return x1 top-left corner x-coordinate.
          */
         public Integer getX1() {
@@ -233,6 +245,7 @@ public class Image {
 
         /**
          * Get y1: top-left corner y-coordinate.
+         *
          * @return y1 top-left corner y-coordinate.
          */
         public Integer getY1() {
@@ -241,6 +254,7 @@ public class Image {
 
         /**
          * Get x2: bottom-right corner x-coordinate.
+         *
          * @return x2 bottom-right corner x-coordinate.
          */
         public Integer getX2() {
@@ -249,6 +263,7 @@ public class Image {
 
         /**
          * Get y2: bottom-right corner y-coordinate.
+         *
          * @return y2 bottom-right corner y-coordinate.
          */
         public Integer getY2() {

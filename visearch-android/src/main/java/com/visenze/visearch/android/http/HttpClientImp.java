@@ -1,10 +1,8 @@
 package com.visenze.visearch.android.http;
 
 import android.net.http.AndroidHttpClient;
-
-import com.visenze.visearch.android.VisenzeError;
+import com.visenze.visearch.android.ViSearchException;
 import com.visenze.visearch.android.util.AuthGenerator;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -24,10 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by visenze on 10/17/14.
- */
-public class HttpClientImp implements HttpTemplate {
+
+public class HttpClientImp implements HttpClient {
 
     private String accessKey;
     private String secretKey;
@@ -40,13 +36,12 @@ public class HttpClientImp implements HttpTemplate {
     /**
      * Get for object
      *
-     * @param url api url
+     * @param url    api url
      * @param params parameters
      * @return json response
-     * @throws VisenzeError
      */
     @Override
-    public String getForObject(String url, Map<String, String> params) throws VisenzeError {
+    public String getForObject(String url, Map<String, String> params) throws ViSearchException {
         AndroidHttpClient client = AndroidHttpClient.newInstance("");
         HttpResponse response;
         String jsonResponse;
@@ -65,7 +60,7 @@ public class HttpClientImp implements HttpTemplate {
             jsonResponse = EntityUtils.toString(entity);
 
         } catch (Exception e) {
-            throw new VisenzeError("Error in getForObject: " + e.toString(), VisenzeError.Code.ERROR);
+            throw new ViSearchException("Error in getForObject: " + e.toString());
         } finally {
             try {
                 client.close();
@@ -79,13 +74,12 @@ public class HttpClientImp implements HttpTemplate {
     /**
      * Post for object
      *
-     * @param url search url
+     * @param url    search url
      * @param params parameters
      * @return json response
-     * @throws VisenzeError
      */
     @Override
-    public String postForObject(String url, Map<String, String> params) throws VisenzeError {
+    public String postForObject(String url, Map<String, String> params) {
         AndroidHttpClient client = AndroidHttpClient.newInstance("");
         HttpPost request = new HttpPost(url);
         HttpResponse response;
@@ -105,7 +99,7 @@ public class HttpClientImp implements HttpTemplate {
             jsonResponse = EntityUtils.toString(entity);
 
         } catch (Exception e) {
-            throw new VisenzeError("Error in postForObject: " + e.toString(), VisenzeError.Code.ERROR);
+            throw new ViSearchException("Error in postForObject: " + e.toString());
         } finally {
             try {
                 client.close();
@@ -120,14 +114,13 @@ public class HttpClientImp implements HttpTemplate {
     /**
      * Post for object with byte[]
      *
-     * @param url api url
+     * @param url    api url
      * @param params parameters
-     * @param bytes byte array
+     * @param bytes  byte array
      * @return json response
-     * @throws VisenzeError
      */
     @Override
-    public String postForObject(String url, Map<String, String> params, byte[] bytes) throws VisenzeError{
+    public String postForObject(String url, Map<String, String> params, byte[] bytes) {
         AndroidHttpClient client = AndroidHttpClient.newInstance("");
         HttpPost request = new HttpPost(url);
         HttpResponse response;
@@ -154,7 +147,7 @@ public class HttpClientImp implements HttpTemplate {
             jsonResponse = EntityUtils.toString(entity);
 
         } catch (Exception e) {
-            throw new VisenzeError("Error in postForObject: " + e.toString(), VisenzeError.Code.ERROR);
+            throw new ViSearchException("Error in postForObject: " + e.toString());
         } finally {
             try {
                 client.close();
@@ -168,12 +161,11 @@ public class HttpClientImp implements HttpTemplate {
     /**
      * http post
      *
-     * @param url api rul
+     * @param url    api rul
      * @param params parameters
-     * @throws VisenzeError
      */
     @Override
-    public void post(String url, Map<String, String> params) throws VisenzeError {
+    public void post(String url, Map<String, String> params) {
         AndroidHttpClient client = AndroidHttpClient.newInstance("");
         HttpPost httpPost = new HttpPost(url);
         params.putAll(AuthGenerator.getAuthParam(accessKey, secretKey));
@@ -183,7 +175,7 @@ public class HttpClientImp implements HttpTemplate {
             httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
             client.execute(httpPost);
         } catch (Exception e) {
-            throw new VisenzeError("Error in post: " + e.toString(), VisenzeError.Code.ERROR);
+            throw new ViSearchException("Error in post: " + e.toString());
         } finally {
             try {
                 client.close();

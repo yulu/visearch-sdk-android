@@ -6,7 +6,6 @@ import java.util.Map;
 
 /**
  * Sets the basic search parameters
- *
  */
 public class BaseSearchParams {
     private Integer page;
@@ -35,6 +34,7 @@ public class BaseSearchParams {
 
     /**
      * Set the limit of items per page
+     *
      * @param limit limit of items per page.
      * @return this instance
      */
@@ -45,6 +45,7 @@ public class BaseSearchParams {
 
     /**
      * Set the page number of the request result
+     *
      * @param page page number.
      * @return this instance.
      */
@@ -55,6 +56,7 @@ public class BaseSearchParams {
 
     /**
      * Set the requirement for image score
+     *
      * @param score set true or false for the requirement, true - search score should be returned.
      * @return this instance.
      */
@@ -65,6 +67,7 @@ public class BaseSearchParams {
 
     /**
      * Set the requirement for query information
+     *
      * @param queryInfo set true for false for the requirement, true - query information should be returned
      * @return this instance.
      */
@@ -76,6 +79,7 @@ public class BaseSearchParams {
     /**
      * Set the filter queries:
      * Schema parameters that are set as searchable can be used as filter queries in search
+     *
      * @param fq filter queries.
      * @return this instance.
      */
@@ -87,6 +91,7 @@ public class BaseSearchParams {
     /**
      * Set the field list:
      * Request the search to return the specified schema parameters
+     *
      * @param fl field list
      * @return this instance.
      */
@@ -97,6 +102,7 @@ public class BaseSearchParams {
 
     /**
      * Get the limit value
+     *
      * @return limit of items per page
      */
     public Integer getLimit() {
@@ -105,6 +111,7 @@ public class BaseSearchParams {
 
     /**
      * Get the page numberfq
+     *
      * @return page number
      */
     public Integer getPage() {
@@ -113,6 +120,7 @@ public class BaseSearchParams {
 
     /**
      * Get the query information requirement
+     *
      * @return query information requirement, true - query information should be returned.
      */
     public Boolean isQueryInfo() {
@@ -121,6 +129,7 @@ public class BaseSearchParams {
 
     /**
      * Get the search score requirement
+     *
      * @return search score requirement, true - search score should be returned.
      */
     public Boolean isScore() {
@@ -129,6 +138,7 @@ public class BaseSearchParams {
 
     /**
      * Get the filter queries
+     *
      * @return filter queries.
      */
     public Map<String, String> getFq() {
@@ -137,6 +147,7 @@ public class BaseSearchParams {
 
     /**
      * Get the field list
+     *
      * @return field list.
      */
     public List<String> getFl() {
@@ -171,14 +182,14 @@ public class BaseSearchParams {
                         .append(",");
             }
             //remove the last ','
-            String s = builder.toString().substring(0, builder.length()-1);
+            String s = builder.toString().substring(0, builder.length() - 1);
 
             map.put("fq", s);
         }
 
         if (fl != null && fl.size() > 0) {
             StringBuilder builder = new StringBuilder();
-            for(int i = 0; i < fl.size(); i++) {
+            for (int i = 0; i < fl.size(); i++) {
                 builder.append(fl.get(i));
                 if (i < fl.size() - 1) {
                     builder.append(',');

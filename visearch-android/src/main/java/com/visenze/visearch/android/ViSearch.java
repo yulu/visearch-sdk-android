@@ -3,7 +3,7 @@ package com.visenze.visearch.android;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import com.visenze.visearch.android.core.SearchOperationsImpl;
+import com.visenze.visearch.android.api.impl.SearchOperationsImpl;
 import com.visenze.visearch.android.http.HttpClientImp;
 
 

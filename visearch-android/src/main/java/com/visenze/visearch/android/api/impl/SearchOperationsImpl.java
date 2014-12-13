@@ -1,7 +1,7 @@
-package com.visenze.visearch.android.core;
+package com.visenze.visearch.android.api.impl;
 
 import com.visenze.visearch.android.*;
-import com.visenze.visearch.android.core.api.SearchOperations;
+import com.visenze.visearch.android.api.SearchOperations;
 import com.visenze.visearch.android.util.ResponseParser;
 import com.visenze.visearch.android.http.HttpClientImp;
 

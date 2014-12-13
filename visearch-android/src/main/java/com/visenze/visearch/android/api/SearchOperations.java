@@ -1,4 +1,4 @@
-package com.visenze.visearch.android.core.api;
+package com.visenze.visearch.android.api;
 
 import com.visenze.visearch.android.ColorSearchParams;
 import com.visenze.visearch.android.IdSearchParams;
